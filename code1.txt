@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Groundwater Guardian Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e0f7fa;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #00796b;
+      color: white;
+      padding: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .game-container {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 10px;
+      width: 80%;
+      font-size: 1rem;
+    }
+
+    .score-board {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+
+    .log {
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 15px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>💧 Groundwater Guardian Game 💧</header>
+
+  <div class="game-container">
+    <h2>Welcome, <span id="username-display">Player</span></h2>
+
+    <input type="text" id="username" placeholder="Enter your name" />
+    <button onclick="registerUser()">Start Game</button>
+
+    <h3>Select a Scenario</h3>
+    <select id="scenario">
+      <option value="drought">Drought</option>
+      <option value="surplus">Surplus Rain</option>
+      <option value="contamination">Contamination</option>
+    </select>
+
+    <h3>Select an Intervention</h3>
+    <select id="intervention">
+      <option value="recharge">Artificial Recharge</option>
+      <option value="microirrigation">Micro-Irrigation</option>
+      <option value="cropdiversification">Crop Diversification</option>
+    </select>
+
+    <button onclick="playGame()">Apply Intervention</button>
+
+    <div class="score-board">
+      Score: <span id="score">0</span> 🌟
+    </div>
+
+    <div class="log" id="game-log">
+      <strong>Game Log:</strong><br>
+    </div>
+  </div>
+
+  <script>
+    let score = 0;
+    let username = "";
+
+    const outcomes = {
+      drought: {
+        recharge: 10,
+        microirrigation: 8,
+        cropdiversification: 6
+      },
+      surplus: {
+        recharge: 9,
+        microirrigation: 4,
+        cropdiversification: 5
+      },
+      contamination: {
+        recharge: 4,
+        microirrigation: 6,
+        cropdiversification: 10
+      }
+    };
+
+    function registerUser() {
+      const nameInput = document.getElementById("username").value;
+      if (nameInput.trim() !== "") {
+        username = nameInput;
+        document.getElementById("username-display").textContent = username;
+        alert("Welcome, " + username + "! Let’s save groundwater together!");
+      } else {
+        alert("Please enter your name to start.");
+      }
+    }
+
+    function playGame() {
+      const scenario = document.getElementById("scenario").value;
+      const intervention = document.getElementById("intervention").value;
+
+      const points = outcomes[scenario][intervention];
+      score += points;
+
+      document.getElementById("score").textContent = score;
+      const message = Scenario: ${scenario}, Intervention: ${intervention} → You earned ${points} points.;
+      updateLog(message);
+    }
+
+    function updateLog(msg) {
+      const log = document.getElementById("game-log");
+      log.innerHTML += msg + "<br>";
+    }
+  </script>
+</body>
+</html>
